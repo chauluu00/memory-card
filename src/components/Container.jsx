@@ -1,12 +1,20 @@
 import { useState } from 'react'
 import Card from "./Card"
 
-export default function Container () {
+export default function Container ({setScore}) {
     const [idArray, setIdArray] = useState(() => getNewArray()); 
-    
+    const [selected, setSelected] = useState([]);
+
     function handleClick(id) {
-        console.log(`Clicked ${id}`);
+        setSelected(prevSelected => [...prevSelected, id]); // Add clicked card to array of selected cards
         setIdArray(prevIdArray => shuffle(prevIdArray));
+        if (!selected.includes(id)) {
+            setScore(prevScore => prevScore + 1)
+        } else {
+            setScore(0);
+            setSelected([]);
+        }
+        
     }
 
     return (
